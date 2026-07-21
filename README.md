@@ -2,7 +2,7 @@
 
 > 본 저장소는 4인 팀 프로젝트 `ProjectTownLife`가 **KrameLife(카르메 라이프)**라는 이름으로 완성된 뒤, 제가 담당한 코드와 협업 문서를 포트폴리오용으로 선별해 정리한 저장소입니다. 외부 에셋, 씬, 프리팹, 빌드 파일과 팀원 담당 코드는 포함하지 않습니다.
 
-[![KrameLife 플레이 영상](https://img.youtube.com/vi/ArTEC_peleQ/hqdefault.jpg)](https://youtu.be/ArTEC_peleQ)
+[![KrameLife 플레이 영상](GIF/KrameLife-preview.jpg)](https://youtu.be/ArTEC_peleQ)
 
 ▶︎ [플레이 영상 보기](https://youtu.be/ArTEC_peleQ) · ▶︎ [GitHub 프로필](https://github.com/Femur-0607)
 
@@ -78,7 +78,7 @@
 - 공용 Scene, Prefab, ScriptableObject 변경 규칙과 AI 보조 코드의 리뷰·검증 기준을 정리했습니다.
 - 구현 완료를 개별 기능 동작이 아니라 메인 플레이 흐름에서의 연결과 검증으로 판단했습니다.
 
-→ [팀 개발 규칙](Docs/team-rules.md) · [아키텍처 개요](ARCHITECTURE.md)
+→ [기술 문서 인덱스](Docs/README.md) · [팀 개발 규칙](Docs/team-rules.md) · [아키텍처 개요](ARCHITECTURE.md)
 
 ## 저장소 구조
 
@@ -90,7 +90,12 @@ Assets/_Project/01.Scripts/
 ├── 07.Systems/       # 오디오, 도감, 대화, 퀘스트
 └── 08.Utils/         # 공통 유틸리티
 Docs/
+├── README.md         # 기술 문서 인덱스
+├── data-pipeline.md  # CSV/SO/DB 데이터 흐름
+├── save-scene-flow.md # 저장과 씬 전환 구조
 └── team-rules.md     # 팀 코드·Unity·협업 규칙
+GIF/
+└── KrameLife-preview.jpg # 플레이 영상 대표 이미지
 ARCHITECTURE.md       # 시스템 책임과 의존 방향
 ```
 
