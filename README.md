@@ -49,7 +49,7 @@
 
 **결과.** 팀원은 CSV만 보고, 코드는 검증된 SO와 ID만 봅니다. 상점·제작·인벤토리가 같은 데이터로 동작합니다.
 
-- [ItemSheetValidator.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Item/ItemSheetValidator.cs) · [ItemSheetImportWindow.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Item/Editor/ItemSheetImportWindow.cs) · [GameDatabase.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Databases/GameDatabase.cs)
+- [ItemSheetValidator.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Item/ItemSheetValidator.cs) · [ItemSheetImportWindow.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Item/Editor/ItemSheetImportWindow.cs) · [GameDatabase.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Databases/GameDatabase.cs) · [RecipeSheetValidator.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/2672a390fdcb76c242897e720fa625d52e493496/Assets/_Project/01.Scripts/01.Core/ScriptableObjects/RecipeSheetValidator.cs) (같은 구조를 레시피에 적용)
 
 ### 3. 획득 로그의 표시 한도 처리와 재사용 수명 정리
 
@@ -59,11 +59,11 @@
 
 **결과.** 로그가 한도에서 멈추지 않고, 재사용한 항목에 이전 연출이 남지 않습니다. 풀 매니저 자체는 팀원 구현이며 제 변경은 로그의 반환·코루틴·재사용 상태 처리입니다.
 
-- [AcquisitionLogController.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/05.UI/AcquisitionLogController.cs) · [ItemAcquisitionService.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/02.Gameplay/Inventory/ItemAcquisitionService.cs)
+- [AcquisitionLogController.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/05.UI/AcquisitionLogController.cs) · [AcquisitionLogEntryView.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/2672a390fdcb76c242897e720fa625d52e493496/Assets/_Project/01.Scripts/05.UI/AcquisitionLogEntryView.cs) · [ItemAcquisitionService.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/02.Gameplay/Inventory/ItemAcquisitionService.cs)
 
 ## 그 밖에 담당한 공통 토대
 
-- **모듈 단위 Save/Load:** 각 모듈이 `ISaveParticipant`로 `Capture`/`Restore`를 구현하고 `SaveManager`가 순회합니다. → [SaveManager.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Save/SaveManager.cs) · [문서](Docs/save-scene-flow.md)
+- **모듈 단위 Save/Load:** 각 모듈이 `ISaveParticipant`로 `Capture`/`Restore`를 구현하고 `SaveManager`가 순회합니다. → [ISaveParticipant.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/2672a390fdcb76c242897e720fa625d52e493496/Assets/_Project/01.Scripts/01.Core/Interfaces/ISaveParticipant.cs) · [SaveManager.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Save/SaveManager.cs) · [문서](Docs/save-scene-flow.md)
 - **데이터 기반 대화·퀘스트:** 8개 시트 탭을 검증해 `DialogueDatabaseSO`로 만들고 `DialogueRunner`가 조건·효과를 실행합니다. → [DialogueRunner.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/07.Systems/Dialogue/DialogueRunner.cs) · [QuestManager.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/07.Systems/Quests/QuestManager.cs)
 - **GameContext와 Additive Scene Flow:** 공통 서비스 접근 지점과 Persistent 씬 유지, enum 기반 Scene/Spawn ID. → [GameContext.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/SceneFlow/GameContext.cs) · [SceneFlowManager.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/SceneFlow/Persistent/SceneFlowManager.cs)
 - **Addressables 아이콘 로드:** 주소별 캐시와 요청 버전 비교로 늦게 도착한 결과가 현재 슬롯을 덮어쓰지 않게 했습니다. → [ItemIconLoader.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/05.UI/Inventory/ItemIconLoader.cs)
@@ -84,6 +84,6 @@ ARCHITECTURE.md                # 시스템 책임과 의존 방향
 
 - 이 저장소는 **코드 열람용**입니다. 유료·외부 에셋, 씬, 프리팹, 팀원 담당 코드가 없어 Unity에서 그대로 실행되지 않습니다.
 - 플레이 결과는 [영상](https://youtu.be/ArTEC_peleQ)으로 확인해 주세요.
-- 코드는 원본 개발 브랜치 2026-07-20 기준에서 제 담당 파일을 옮긴 것입니다. 코드 링크는 커밋 `6d15afb`에 고정돼 있어 이후 변경과 무관하게 같은 내용을 가리킵니다.
+- 코드는 원본 개발 브랜치 2026-07-20 기준에서 제 담당 파일을 옮긴 것입니다. 코드 링크는 커밋 `6d15afb`·`2672a39`에 고정돼 있어 이후 변경과 무관하게 같은 내용을 가리킵니다.
 
 © 2026 Yang Ji-seop. Portfolio use only.
