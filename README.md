@@ -37,7 +37,7 @@
 
 **선택.** 모델을 `List<ItemStack> slots`로 바꾸고 `MoveSlot`, `UnlockSlots`, 빈 슬롯 탐색을 추가했습니다. 저장은 빈칸을 포함한 슬롯 순서와 해금 수를 그대로 기록합니다. 상태가 바뀌면 `InventoryChanged` 이벤트를 발행하고, 일반 슬롯 패널과 퀵슬롯이 이를 구독해 화면을 갱신합니다. 퀵슬롯은 인벤토리 앞쪽 슬롯을 함께 보여 주며 숫자키·휠로 전환합니다.
 
-**결과.** 저장 후 복원해도 아이템이 같은 칸에 있고, UI는 모델을 직접 수정하지 않습니다. Dictionary 조회가 느려서 바꾼 것이 아니라 위치·빈칸·순서라는 요구 때문에 바꾼 변경입니다.
+**결과.** 빈칸을 포함한 슬롯 순서로 같은 배치를 복원하도록 했고, UI의 드래그는 모델의 `MoveSlot`을 호출하도록 연결했습니다. Dictionary 조회가 느려서 바꾼 것이 아니라 위치·빈칸·순서라는 요구 때문에 바꾼 변경입니다.
 
 - [ItemInventoryManager.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/02.Gameplay/Inventory/ItemInventoryManager.cs) · [ItemStack.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Item/ItemStack.cs) · [InventorySave.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Save/InventorySave.cs) · [InventoryPanelController.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/05.UI/Inventory/InventoryPanelController.cs)
 
@@ -45,11 +45,11 @@
 
 **문제.** 아이템 이름·가격·스택·아이콘 주소가 코드, Inspector, 문서, SO에 흩어져 팀원마다 다른 값을 보는 일이 생겼습니다.
 
-**선택.** Google Sheets CSV를 원본으로 두고, `ItemSheetValidator`가 필수 컬럼 누락·ID 형식·중복 ID·수량 범위를 검사해 오류를 목록으로 모읍니다. 통과한 행만 `ItemSheetImportWindow`가 SO로 만들며, 같은 ID의 기존 에셋이 있으면 새로 만들지 않고 `SerializedObject`로 갱신해 기존 참조를 유지합니다. 생성된 SO는 `GameDatabase`에 등록되고 런타임은 ID로 조회합니다.
+**선택.** Google Sheets CSV를 원본으로 두고, `ItemSheetValidator`가 행의 필수값·ID 형식·중복 ID·가격·스택 범위를 검사해 오류를 목록으로 모으도록 했습니다. 오류가 있으면 SO 반영 전에 중단하고, 통과하면 `ItemSheetImportWindow`가 생성 루트 안에서 같은 ID의 SO를 찾아 `SerializedObject`로 갱신하도록 했습니다. 기존 에셋이 없으면 새로 생성하며, SO는 `GameDatabase`에 등록해 런타임에서 ID로 조회합니다.
 
-**결과.** 팀원은 CSV만 보고, 코드는 검증된 SO와 ID만 봅니다. 상점·제작·인벤토리가 같은 데이터로 동작합니다.
+**결과.** 데이터는 CSV에서 검증하고, 런타임은 등록된 SO와 ID로 조회하도록 했습니다. 상점·제작·인벤토리가 같은 데이터로 동작합니다.
 
-- [ItemSheetValidator.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Item/ItemSheetValidator.cs) · [ItemSheetImportWindow.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Item/Editor/ItemSheetImportWindow.cs) · [GameDatabase.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Databases/GameDatabase.cs) · [RecipeSheetValidator.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/2672a390fdcb76c242897e720fa625d52e493496/Assets/_Project/01.Scripts/01.Core/ScriptableObjects/RecipeSheetValidator.cs) (같은 구조를 레시피에 적용)
+- [ItemSheetValidator.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Item/ItemSheetValidator.cs) · [ItemSheetImportWindow.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Item/Editor/ItemSheetImportWindow.cs) · [GameDatabase.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/01.Core/Databases/GameDatabase.cs) · [RecipeSheetValidator.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/2672a390fdcb76c242897e720fa625d52e493496/Assets/_Project/01.Scripts/01.Core/ScriptableObjects/RecipeSheetValidator.cs) (레시피 필드를 별도로 검증)
 
 ### 3. 획득 로그의 표시 한도 처리와 재사용 수명 정리
 
@@ -57,7 +57,7 @@
 
 **선택.** 초과 개수를 먼저 계산해 정해진 횟수만 처리하도록 바꿨습니다. 팀의 오브젝트 풀을 로그 항목에 연결해 반환하고, 반환 전에 이전 페이드 코루틴을 `Dictionary<GameObject, Coroutine>`으로 찾아 정리합니다. 풀을 쓰지 않는 경로는 부모에서 분리한 뒤 파괴합니다.
 
-**결과.** 로그가 한도에서 멈추지 않고, 재사용한 항목에 이전 연출이 남지 않습니다. 풀 매니저 자체는 팀원 구현이며 제 변경은 로그의 반환·코루틴·재사용 상태 처리입니다.
+**결과.** 초과 항목은 정해진 횟수만 반환하고, 조기 반환 때 해당 페이드 코루틴을 중지·제거하도록 했습니다. 풀 매니저 자체는 팀원 구현이며 제 변경은 로그의 반환·코루틴·재사용 상태 처리입니다.
 
 - [AcquisitionLogController.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/05.UI/AcquisitionLogController.cs) · [AcquisitionLogEntryView.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/2672a390fdcb76c242897e720fa625d52e493496/Assets/_Project/01.Scripts/05.UI/AcquisitionLogEntryView.cs) · [ItemAcquisitionService.cs](https://github.com/Femur-0607/KrameLife-Portfolio/blob/6d15afbee594f63f3d60da8e753e182d81e91550/Assets/_Project/01.Scripts/02.Gameplay/Inventory/ItemAcquisitionService.cs)
 
@@ -84,6 +84,6 @@ ARCHITECTURE.md                # 시스템 책임과 의존 방향
 
 - 이 저장소는 **코드 열람용**입니다. 유료·외부 에셋, 씬, 프리팹, 팀원 담당 코드가 없어 Unity에서 그대로 실행되지 않습니다.
 - 플레이 결과는 [영상](https://youtu.be/ArTEC_peleQ)으로 확인해 주세요.
-- 코드는 원본 개발 브랜치 2026-07-20 기준에서 제 담당 파일을 옮긴 것입니다. 코드 링크는 커밋 `6d15afb`·`2672a39`에 고정돼 있어 이후 변경과 무관하게 같은 내용을 가리킵니다.
+- 원본에서 제 담당 파일을 선별해 옮겼습니다. 인벤토리·패널·아이템 검증기·임포터·DB는 `main`(`a2ec507`), 획득 로그·레시피 검증기는 `dev`(`1e73d25`) 기준입니다. 코드 링크는 커밋 `6d15afb`·`2672a39`에 고정돼 있어 이후 변경과 무관하게 같은 내용을 가리킵니다.
 
 © 2026 Yang Ji-seop. Portfolio use only.
